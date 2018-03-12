@@ -26,39 +26,39 @@ install:
 #    - sudo cp *.a /usr/lib
 #    - popd
 
-    git clone https://github.com/openebs/zfs
-git clone https://github.com/openebs/spl
+    - git clone https://github.com/openebs/zfs
+    - git clone https://github.com/openebs/spl
 
-echo "Clone Completed"
+    - echo "Clone Completed"
 
-cd spl
-git checkout spl-0.7.4
-sh autogen.sh
-./configure
-make
+    - cd spl
+    - git checkout spl-0.7.4
+    - sh autogen.sh
+    - ./configure
+    - make
 
-cd ../zfs
+    - cd ../zfs
 #git checkout zfs-0.7.4
-sh autogen.sh
-./configure --enable-uzfs=yes --with-config=user --with-jemalloc
-make
+    - sh autogen.sh
+    - ./configure --enable-uzfs=yes --with-config=user --with-jemalloc
+    - make
 
-if [ $? -eq "0" ]; then
- echo "No error"
-else
- echo "Error"
-fi
+    - if [ $? -eq "0" ]; then
+        echo "No error"
+    - else
+        echo "Error"
+      fi
 
 
 #Check for build success or failure
-if [ -e cmd/zrepl/.libs/zrepl -a -e cmd/zpool/.libs/zpool -a -e cmd/zfs/.libs/zfs ]; then
-  echo "Build finished; Binaries are available"
-else
- echo "Build failure; Binaries are unavailable"
- #exit 1
-fi
+    - if [ -e cmd/zrepl/.libs/zrepl -a -e cmd/zpool/.libs/zpool -a -e cmd/zfs/.libs/zfs ]; then
+       echo "Build finished; Binaries are available"
+      else
+       echo "Build failure; Binaries are unavailable"
+       #exit 1
+      fi
 
-sudo docker build -f Dockerfile.Baseimage -t openebs/cstor-base:ci --build-arg BUILD_DATE=${BUILD_DATE} . 
+    - sudo docker build -f Dockerfile.Baseimage -t openebs/cstor-base:ci --build-arg BUILD_DATE=${BUILD_DATE} . 
 
 #before_script:
 #    - make cstyle;
