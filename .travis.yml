@@ -1,12 +1,6 @@
 language: c
 sudo: required
-env:
-  global:
-    # Travis limits maximum log size, we have to cut tests output 
-   # - CODECOV_TOKEN="987cf0f1-ae3b-477e-b645-954e682f99ec"
-   # - ZFS_TEST_TRAVIS_LOG_MAX_LENGTH=800
 
-#matrix:
     
 before_install:
 #sudo apt-get -qq update
@@ -19,46 +13,39 @@ before_install:
 
 
 install:
-#    - pushd .
-#    - cd /usr/src/gtest
-#    - sudo cmake CMakeLists.txt
-#    - sudo make
-#    - sudo cp *.a /usr/lib
-#    - popd
-
-    - git clone https://github.com/openebs/zfs
-    - git clone https://github.com/openebs/spl
-
-    - echo "Clone Completed"
-
-    - cd spl
-    - git checkout spl-0.7.4
-    - sh autogen.sh
-    - ./configure
-    - make
-
-    - cd ../zfs
-#git checkout zfs-0.7.4
-    - sh autogen.sh
-    - ./configure --enable-uzfs=yes --with-config=user --with-jemalloc
-    - make
-
-    - if [ $? -eq "0" ]; then
-        echo "No error";
-    - else
-        echo "Error";
-      fi
 
 
-#Check for build success or failure
-    - if [ -e cmd/zrepl/.libs/zrepl -a -e cmd/zpool/.libs/zpool -a -e cmd/zfs/.libs/zfs ]; then
-        echo "Build finished; Binaries are available";
+      git clone https://github.com/openebs/zfs
+      git clone https://github.com/openebs/spl
+
+      echo "Clone Completed"
+
+      cd spl
+      git checkout spl-0.7.4
+      sh autogen.sh
+      ./configure
+      make
+
+      cd ../zfs
+
+      sh autogen.sh
+      ./configure --enable-uzfs=yes --with-config=user --with-jemalloc
+      make
+
+      if [ $? -eq "0" ]; then
+         echo "No error";
       else
-        echo "Build failure; Binaries are unavailable";
-        #exit 1;
+         echo "Error";
       fi
 
-    - sudo docker build -f Dockerfile.Baseimage -t openebs/cstor-base:ci --build-arg BUILD_DATE=${BUILD_DATE} . 
+
+      if [ -e cmd/zrepl/.libs/zrepl -a -e cmd/zpool/.libs/zpool -a -e cmd/zfs/.libs/zfs ]; then
+         echo "Build finished; Binaries are available";
+      else
+         echo "Build failure; Binaries are unavailable";
+      fi
+
+      sudo docker build -f Dockerfile.Baseimage -t openebs/cstor-base:ci --build-arg BUILD_DATE=${BUILD_DATE} . 
 
 #before_script:
 #    - make cstyle;
