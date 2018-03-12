@@ -13,39 +13,8 @@ before_install:
 
 
 install:
-
-
-    - git clone https://github.com/openebs/zfs
-    - git clone https://github.com/openebs/spl
-
-    - echo "Clone Completed"
-
-    - cd spl
-    - git checkout spl-0.7.4
-    - sh autogen.sh;
-    - ./configure;
-    - make;
-
-    - cd ../zfs
-
-    - sh autogen.sh;
-    - ./configure --enable-uzfs=yes --with-config=user --with-jemalloc;
-    - make;
-
-    - if [ $? -eq "0" ]; then
-         echo "No error";
-      else
-         echo "Error";
-      fi
-
-
-    - if [ -e cmd/zrepl/.libs/zrepl -a -e cmd/zpool/.libs/zpool -a -e cmd/zfs/.libs/zfs ]; then
-         echo "Build finished; Binaries are available";
-      else
-         echo "Build failure; Binaries are unavailable";
-      fi
-
-    - sudo docker build -f Dockerfile.Baseimage -t openebs/cstor-base:ci --build-arg BUILD_DATE=${BUILD_DATE} . 
+    - make cstor-base-image
+    - make cstor-main-image 
 
 #before_script:
 #    - make cstyle;

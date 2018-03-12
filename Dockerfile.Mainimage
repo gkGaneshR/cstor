@@ -3,7 +3,7 @@
 # maya-nodebot  releases.
 #
 
-FROM ubuntu:16.04
+FROM openebs/cstor-base:ci
 
 COPY entrypoint-mainimage.sh /usr/local/bin/
 
