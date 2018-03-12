@@ -52,10 +52,10 @@ install:
 
 #Check for build success or failure
     - if [ -e cmd/zrepl/.libs/zrepl -a -e cmd/zpool/.libs/zpool -a -e cmd/zfs/.libs/zfs ]; then
-       echo "Build finished; Binaries are available";
+        echo "Build finished; Binaries are available";
       else
-       echo "Build failure; Binaries are unavailable";
-       #exit 1;
+        echo "Build failure; Binaries are unavailable";
+        #exit 1;
       fi
 
     - sudo docker build -f Dockerfile.Baseimage -t openebs/cstor-base:ci --build-arg BUILD_DATE=${BUILD_DATE} . 
