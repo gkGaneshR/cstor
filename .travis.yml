@@ -19,14 +19,15 @@ before_install:
 
 
 install:
-    - pushd .
-    - cd /usr/src/gtest
-    - sudo cmake CMakeLists.txt
-    - sudo make
-    - sudo cp *.a /usr/lib
-    - popd
+#    - pushd .
+#    - cd /usr/src/gtest
+#    - sudo cmake CMakeLists.txt
+#    - sudo make
+#    - sudo cp *.a /usr/lib
+#    - popd
 
     - make cstor-base-image
+    - make cstor-main-image
 
 #before_script:
 #    - make cstyle;
