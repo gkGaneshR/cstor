@@ -1,5 +1,6 @@
 #!/bin/bash
-set -ex
+#set -ex
+trap "echo Build failed ganesh" EXIT
 
 git clone https://github.com/openebs/zfs
 git clone https://github.com/openebs/spl
