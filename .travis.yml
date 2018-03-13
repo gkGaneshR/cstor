@@ -13,12 +13,7 @@ before_install:
 
 
 install:
-    - pushd .
-    - cd /usr/src/gtest
-    - sudo cmake CMakeLists.txt
-    - sudo make
-    - sudo cp *.a /usr/lib
-    - popd
+
     - make cstor-base-image
     - make cstor-main-image 
 
