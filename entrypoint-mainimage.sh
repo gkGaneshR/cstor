@@ -1,6 +1,7 @@
 #!/bin/sh
 
-set -e
+#set -e
+trap "echo Build failed" EXIT
 
 #pwd
 #ls
